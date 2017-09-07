@@ -11,7 +11,7 @@ function [ out ] = chebyshevEvaluation( K, M, b, taus, eta, cheb_degrees )
 %   - out : approximation of (tau*I-inv(M)*K)^{-1} * b.
 
 alphas = zeros(size(taus, 2), max(cheb_degrees)+1);
-for i=1:size(taus, 2)
+for i=1:length(taus)
     tau = taus(i);
     
     z = 2*eta/(eta-tau)-1;

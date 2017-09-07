@@ -11,6 +11,34 @@ function [ out ] = resolvantApprox(K, M, b, xis, tols, cheb_max_order)
 %   Output :
 %   - out : approximation of (xis_i*I-inv(M)*K)^{-1} * b.
 
+if nargin ~= 6
+    error('Wrong number of input arguments.\n resolvantApprox(K, M, b, xis, tols, cheb_max_order)')
+end
+
+if (size(K, 1)~=size(K, 1)) || (size(M, 1)~=size(M, 1))
+    error('Input matrices must be square')
+end
+if (size(K)~=size(M))
+    error('Input matrices must have same size')
+end
+if (size(K, 1)~=size(b, 1) || (size(b, 2)~=1))
+    error('Input b must be a vector compatible with input matrices')
+end
+
+if ~((size(xis, 1)==1) || (size(xis, 2)==1))
+    error('Input xis must be a row or column vector')
+end
+if ~((size(tols, 1)==1) || (size(tols, 2)==1))
+    error('Input tols must be a row or column vector')
+end
+
+if size(xis, 1)==1
+    xis = transpose(xis);
+end
+if size(tols, 1)==1
+    tols = transpose(tols);
+end
+
 x0 = min(real(xis));
 objectivefun = @(x) compute_cheb_maxdegree(x, xis, tols);
 
